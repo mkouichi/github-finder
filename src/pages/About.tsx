@@ -18,8 +18,8 @@ function About(): JSX.Element {
             {' '}
             Brad Traversy
           </a>
-        </strong>
-        .
+        </strong>{' '}
+        with some additions by me.
       </p>
       <p className='text-lg text-gray-400'>
         Version <span className='text-gray-400'>1.0.0</span>

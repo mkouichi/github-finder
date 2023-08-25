@@ -1,7 +1,10 @@
+import UserResults from '../components/users/UserResults';
+
 function Home(): JSX.Element {
   return (
     <>
-      <h1 className='text-6xl'>Home</h1>
+      {/* SEARCH COMPONENT */}
+      <UserResults />
     </>
   );
 }
