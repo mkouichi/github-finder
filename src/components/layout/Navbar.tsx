@@ -7,7 +7,7 @@ interface NavbarProps {
 
 function Navbar({ title = 'Github Finder' }: NavbarProps): JSX.Element {
   return (
-    <nav className='navbar mb-12 shadow-lg bg-cyan-800 text-neutral-content'>
+    <nav className='navbar mb-12 shadow-lg bg-neutral text-neutral-content'>
       <div className='container mx-auto'>
         <div className='flex-none px-2 mx-2'>
           <FaGithub className='inline pr-2 text-3xl' />
