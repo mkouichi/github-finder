@@ -1,8 +1,10 @@
-function App() {
+import Navbar from './components/layout/Navbar';
+
+function App(): JSX.Element {
   return (
-    <div className='bg-purple-500'>
-      <h1 className='text-xl'>Tailwind check</h1>
-      <button className='btn bg-indigo-500 ...'>daisyUI check</button>
+    <div className='flex flex-col justify-between h-screen'>
+      <Navbar />
+      <main>Content</main>
     </div>
   );
 }
