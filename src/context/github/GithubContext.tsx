@@ -1,5 +1,7 @@
-import { createContext, useState } from 'react';
+import { createContext, useReducer } from 'react';
+
 import User from '../../models/user';
+import githubReducer from './GithubReducer';
 
 interface GithubContextType {
   users: User[];
@@ -16,17 +18,15 @@ const GithubContext = createContext<GithubContextType>({
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
 const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
-export const GithubProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
+  const initialState = {
+    users: [],
+    loading: true,
+  };
+
+  const [state, dispatch] = useReducer(githubReducer, initialState);
 
   async function fetchUsers(): Promise<void> {
-    setLoading(true);
-
     const response = await fetch(`${GITHUB_URL}/users`, {
       headers: {
         Authorization: `token ${GITHUB_TOKEN}`,
@@ -35,12 +35,12 @@ export const GithubProvider = ({
 
     const data: User[] = await response.json();
 
-    setLoading(false);
-    setUsers(data);
+    dispatch({ type: 'GET_USERS', payload: data });
   }
 
   return (
-    <GithubContext.Provider value={{ users, loading, fetchUsers }}>
+    <GithubContext.Provider
+      value={{ users: state.users, loading: state.loading, fetchUsers }}>
       {children}
     </GithubContext.Provider>
   );
