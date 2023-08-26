@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 import User from '../../models/user';
 import GithubContext from '../../context/github/GithubContext';
@@ -6,11 +6,7 @@ import GithubContext from '../../context/github/GithubContext';
 import UserItem from './UserItem';
 
 function UserResults(): JSX.Element {
-  const { users, loading, fetchUsers } = useContext(GithubContext);
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  const { users, loading } = useContext(GithubContext);
 
   return loading ? (
     <span className='loading loading-bars loading-lg block mx-auto'></span>
