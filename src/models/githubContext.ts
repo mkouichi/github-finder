@@ -6,5 +6,5 @@ export interface GithubState {
 }
 
 export interface GithubContextType extends GithubState {
-  fetchUsers(): Promise<void>;
+  searchUsers(text: string): Promise<void>;
 }
