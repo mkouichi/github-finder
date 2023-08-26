@@ -23,7 +23,8 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AlertContext.Provider value={{ alert: state, setAlert }}>
+    <AlertContext.Provider
+      value={{ type: state?.type, msg: state?.msg, setAlert }}>
       {children}
     </AlertContext.Provider>
   );
