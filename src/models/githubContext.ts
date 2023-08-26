@@ -6,5 +6,6 @@ export interface GithubState {
 }
 
 export interface GithubContextType extends GithubState {
-  searchUsers(text: string): Promise<void>;
+  searchUsers: (text: string) => Promise<void>;
+  clearResults: () => void;
 }

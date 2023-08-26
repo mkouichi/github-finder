@@ -8,6 +8,7 @@ const GithubContext = createContext<GithubContextType>({
   users: [],
   loading: false,
   searchUsers: async (text: string) => {},
+  clearResults: () => {},
 });
 
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
@@ -42,9 +43,19 @@ export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch({ type: 'GET_USERS', payload: items });
   }
 
+  // Clear users from state
+  const clearResults = (): void => {
+    dispatch({ type: 'CLEAR_RESULTS' });
+  };
+
   return (
     <GithubContext.Provider
-      value={{ users: state.users, loading: state.loading, searchUsers }}>
+      value={{
+        users: state.users,
+        loading: state.loading,
+        searchUsers,
+        clearResults,
+      }}>
       {children}
     </GithubContext.Provider>
   );
