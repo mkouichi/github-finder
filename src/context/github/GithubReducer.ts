@@ -1,14 +1,11 @@
-interface StateType {
-  users: any[];
-  loading: boolean;
-}
+import User from '../../models/user';
+import { GithubState } from '../../models/githubContext';
 
-interface ActionType {
-  type: string;
-  payload?: any;
-}
+type ACTIONTYPE =
+  | { type: 'GET_USERS'; payload: User[] }
+  | { type: 'SET_LOADING' };
 
-const githubReducer = (state: StateType, action: ActionType) => {
+const githubReducer = (state: GithubState, action: ACTIONTYPE) => {
   switch (action.type) {
     case 'GET_USERS':
       return {
