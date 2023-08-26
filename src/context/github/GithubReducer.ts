@@ -1,12 +1,12 @@
 import User from '../../models/user';
-import { GithubState } from '../../models/githubContext';
+import { GithubReducerType } from '../../models/githubContext';
 
 type ACTIONTYPE =
   | { type: 'GET_USERS'; payload: User[] }
   | { type: 'CLEAR_RESULTS' }
   | { type: 'SET_LOADING' };
 
-const githubReducer = (state: GithubState, action: ACTIONTYPE) => {
+const githubReducer = (state: GithubReducerType, action: ACTIONTYPE) => {
   switch (action.type) {
     case 'GET_USERS':
       return {

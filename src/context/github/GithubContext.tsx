@@ -1,13 +1,16 @@
 import { createContext, useReducer } from 'react';
 
 import User from '../../models/user';
-import { GithubState, GithubContextType } from '../../models/githubContext';
+import {
+  GithubContextType,
+  GithubReducerType,
+} from '../../models/githubContext';
 import githubReducer from './GithubReducer';
 
 const GithubContext = createContext<GithubContextType>({
   users: [],
   loading: false,
-  searchUsers: async (text: string) => {},
+  searchUsers: async () => {},
   clearResults: () => {},
 });
 
@@ -15,7 +18,7 @@ const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
 const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
 export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
-  const initialState: GithubState = {
+  const initialState: GithubReducerType = {
     users: [],
     loading: false,
   };
