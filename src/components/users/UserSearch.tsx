@@ -1,10 +1,14 @@
 import { useContext, useState } from 'react';
 import GithubContext from '../../context/github/GithubContext';
+import AlertContext from '../../context/alert/AlertContext';
 
 function UserSearch(): JSX.Element {
   const [text, setText] = useState('');
 
   const { users, searchUsers, clearResults } = useContext(GithubContext);
+  const { setAlert } = useContext(AlertContext) ?? {
+    setAlert: () => {},
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setText(e.target.value);
@@ -13,7 +17,7 @@ function UserSearch(): JSX.Element {
     e.preventDefault();
 
     if (text === '') {
-      alert('Please enter something');
+      setAlert('error', 'Please enter something');
     } else {
       searchUsers(text);
       setText('');
@@ -28,12 +32,14 @@ function UserSearch(): JSX.Element {
             <div className='join'>
               <input
                 type='text'
-                className='w-full pr-40 bg-gray-200 input input-lg text-black input-bordered join-item'
+                className='w-full bg-gray-200 input input-lg text-black input-bordered join-item'
                 placeholder='Search'
                 value={text}
                 onChange={handleChange}
               />
-              <button type='submit' className='btn btn-lg w-36 join-item'>
+              <button
+                type='submit'
+                className='btn btn-neutral btn-lg md:w-36 join-item'>
                 Go
               </button>
             </div>
@@ -42,7 +48,7 @@ function UserSearch(): JSX.Element {
       </div>
       {users.length > 0 && (
         <div>
-          <button className='btn btn-ghost btn-lg' onClick={clearResults}>
+          <button className='btn btn-lg' onClick={clearResults}>
             Clear
           </button>
         </div>
