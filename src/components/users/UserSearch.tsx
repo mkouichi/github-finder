@@ -32,14 +32,14 @@ function UserSearch(): JSX.Element {
             <div className='join'>
               <input
                 type='text'
-                className='w-full bg-gray-200 input input-lg text-black input-bordered join-item'
+                className='w-full bg-gray-100 input input-lg text-black input-bordered join-item'
                 placeholder='Search'
                 value={text}
                 onChange={handleChange}
               />
               <button
                 type='submit'
-                className='btn btn-neutral btn-lg md:w-36 join-item'>
+                className='btn btn-primary btn-lg md:w-36 join-item'>
                 Go
               </button>
             </div>
@@ -48,7 +48,7 @@ function UserSearch(): JSX.Element {
       </div>
       {users.length > 0 && (
         <div>
-          <button className='btn btn-lg' onClick={clearResults}>
+          <button className='btn btn-outline btn-lg' onClick={clearResults}>
             Clear
           </button>
         </div>
