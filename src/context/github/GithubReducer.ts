@@ -3,6 +3,7 @@ import { GithubReducerType } from '../../models/githubContext';
 
 type ACTIONTYPE =
   | { type: 'GET_USERS'; payload: User[] }
+  | { type: 'GET_USER'; payload: User }
   | { type: 'CLEAR_RESULTS' }
   | { type: 'SET_LOADING' };
 
@@ -12,6 +13,12 @@ const githubReducer = (state: GithubReducerType, action: ACTIONTYPE) => {
       return {
         ...state,
         users: action.payload,
+        loading: false,
+      };
+    case 'GET_USER':
+      return {
+        ...state,
+        user: action.payload,
         loading: false,
       };
     case 'CLEAR_RESULTS':

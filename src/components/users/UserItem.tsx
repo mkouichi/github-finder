@@ -8,7 +8,7 @@ interface UserItemProps {
 function UserItem({ user: { login, avatar_url } }: UserItemProps): JSX.Element {
   return (
     <>
-      <Link className='text-base-content' to={`/users/${login}`}>
+      <Link className='text-base-content' to={`/user/${login}`}>
         <div className='card border dark:border-none dark:bg-neutral shadow-md compact side hover:bg-purple-50 dark:hover:bg-purple-900'>
           <div className='flex-row items-center space-x-4 card-body'>
             <div>

@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import Home from './pages/Home';
 import About from './pages/About';
+import User from './pages/User';
 import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter([
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: 'about',
         element: <About />,
+      },
+      {
+        path: 'user/:login',
+        element: <User />,
       },
       { path: '*', element: <NotFound /> },
     ],
