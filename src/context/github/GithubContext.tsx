@@ -28,13 +28,14 @@ export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
 
-  const setLoading = (): void => {
-    dispatch({ type: 'SET_LOADING' });
+  // Set loading to true
+  const setLoadingToTrue = (): void => {
+    dispatch({ type: 'SET_LOADING', payload: true });
   };
 
   // Search users
   async function searchUsers(text: string): Promise<void> {
-    setLoading();
+    setLoadingToTrue();
 
     const params = new URLSearchParams({ q: text });
 
@@ -50,8 +51,8 @@ export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   // Get single user
-  async function getUser(login: string): Promise<void> {
-    setLoading();
+  async function getUser(login: string) {
+    setLoadingToTrue();
 
     const response = await fetch(`${GITHUB_URL}/users/${login}`, {
       headers: {
@@ -60,7 +61,8 @@ export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     if (response.status === 404) {
-      console.log('User not found');
+      dispatch({ type: 'SET_LOADING', payload: false });
+      throw new Response('Not Found', { status: 404 });
     } else {
       const data: User = await response.json();
       dispatch({ type: 'GET_USER', payload: data });
