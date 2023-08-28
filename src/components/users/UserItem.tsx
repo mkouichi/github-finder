@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import User from '../../models/user';
 
-interface UserItemProps {
+function UserItem({
+  user: { login, avatar_url },
+}: {
   user: User;
-}
-
-function UserItem({ user: { login, avatar_url } }: UserItemProps): JSX.Element {
+}): JSX.Element {
   return (
     <>
       <Link className='text-base-content' to={`/user/${login}`}>

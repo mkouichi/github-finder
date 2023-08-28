@@ -1,6 +1,12 @@
 import User from './user';
 import Repo from './repo';
 
+export type ACTIONTYPE =
+  | { type: 'GET_USERS'; payload: User[] }
+  | { type: 'GET_USER'; payload: User }
+  | { type: 'GET_REPOS'; payload: Partial<Repo>[] }
+  | { type: 'CLEAR_RESULTS' }
+  | { type: 'SET_LOADING'; payload: boolean };
 export interface GithubReducerType {
   users: User[];
   user: User | null;
@@ -8,8 +14,5 @@ export interface GithubReducerType {
   loading: boolean;
 }
 export interface GithubContextType extends GithubReducerType {
-  searchUsers: (text: string) => Promise<void>;
-  getUser: (login: string) => Promise<void>;
-  getRepos: (login: string) => Promise<void>;
-  clearResults: () => void;
+  dispatch: React.Dispatch<ACTIONTYPE>;
 }

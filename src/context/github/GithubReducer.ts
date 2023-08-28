@@ -1,13 +1,5 @@
 import User from '../../models/user';
-import Repo from '../../models/repo';
-import { GithubReducerType } from '../../models/githubContext';
-
-type ACTIONTYPE =
-  | { type: 'GET_USERS'; payload: User[] }
-  | { type: 'GET_USER'; payload: User }
-  | { type: 'GET_REPOS'; payload: Partial<Repo>[] }
-  | { type: 'CLEAR_RESULTS' }
-  | { type: 'SET_LOADING'; payload: boolean };
+import { ACTIONTYPE, GithubReducerType } from '../../models/githubContext';
 
 const githubReducer = (state: GithubReducerType, action: ACTIONTYPE) => {
   switch (action.type) {

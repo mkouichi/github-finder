@@ -5,30 +5,33 @@ import { FaUsers, FaUserFriends, FaCodepen, FaStore } from 'react-icons/fa';
 import GithubContext from '../context/github/GithubContext';
 import NotFound from './NotFound';
 import RepoList from '../components/repos/RepoList';
+import { getUser, getRepos } from '../context/github/GithubActions';
 
 function User() {
   const [notFound, setNotFound] = useState(false);
-  const { user, repos, loading, getUser, getRepos } = useContext(GithubContext);
-  let { login } = useParams();
+  const { user, repos, loading, dispatch } = useContext(GithubContext);
+  const { login } = useParams();
 
   useEffect(() => {
-    if (login) {
-      getUser(login).catch(async (error) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+
+    const getUserData = async () => {
+      const userData = await getUser(login!);
+      dispatch({ type: 'GET_USER', payload: userData });
+
+      const userRepoData = await getRepos(login!);
+      dispatch({ type: 'GET_REPOS', payload: userRepoData });
+    };
+
+    getUserData()
+      // Handle 404 error
+      .catch(async (error) => {
         const errorData = await error.json();
         console.error(errorData);
-        
-        setNotFound(true);
-      });
-
-      getRepos(login).catch(async (error) => {
-        const errorData = await error.json();
-        console.error(errorData);
 
         setNotFound(true);
       });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [login, dispatch]);
 
   return notFound ? (
     <NotFound />
@@ -39,7 +42,7 @@ function User() {
       <>
         <div className='w-full mx-auto lg:w-10/12'>
           <div className='mb-4'>
-            <Link to='/' className='btn btn-ghost'>
+            <Link to='/' className='btn dark:btn-neutral'>
               Back To Search
             </Link>
           </div>
