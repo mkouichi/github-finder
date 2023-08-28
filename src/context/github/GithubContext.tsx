@@ -10,9 +10,11 @@ import githubReducer from './GithubReducer';
 const GithubContext = createContext<GithubContextType>({
   users: [],
   user: null,
+  repos: [],
   loading: false,
   searchUsers: async () => {},
   getUser: async () => {},
+  getRepos: async () => {},
   clearResults: () => {},
 });
 
@@ -23,6 +25,7 @@ export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
   const initialState: GithubReducerType = {
     users: [],
     user: null,
+    repos: [],
     loading: false,
   };
 
@@ -62,10 +65,46 @@ export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (response.status === 404) {
       dispatch({ type: 'SET_LOADING', payload: false });
-      throw new Response('Not Found', { status: 404 });
+
+      throw new Response(
+        JSON.stringify({ status: 404, message: 'User Not Found' }),
+        {
+          status: 404,
+        }
+      );
     } else {
       const data: User = await response.json();
       dispatch({ type: 'GET_USER', payload: data });
+    }
+  }
+
+  // Get user repos
+  async function getRepos(login: string) {
+    setLoadingToTrue();
+
+    const params = new URLSearchParams({ sort: 'created', per_page: '10' });
+
+    const response = await fetch(
+      `${GITHUB_URL}/users/${login}/repos?${params}`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+        },
+      }
+    );
+
+    if (response.status === 404) {
+      dispatch({ type: 'SET_LOADING', payload: false });
+
+      throw new Response(
+        JSON.stringify({ status: 404, message: 'Repos Not Found' }),
+        {
+          status: 404,
+        }
+      );
+    } else {
+      const data = await response.json();
+      dispatch({ type: 'GET_REPOS', payload: data });
     }
   }
 
@@ -79,9 +118,11 @@ export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         users: state.users,
         user: state.user,
+        repos: state.repos,
         loading: state.loading,
         searchUsers,
         getUser,
+        getRepos,
         clearResults,
       }}>
       {children}

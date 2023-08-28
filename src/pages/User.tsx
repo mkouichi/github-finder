@@ -1,19 +1,29 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { FaUsers, FaUserFriends, FaCodepen, FaStore } from 'react-icons/fa';
 
 import GithubContext from '../context/github/GithubContext';
 import NotFound from './NotFound';
-import { FaUsers, FaUserFriends, FaCodepen, FaStore } from 'react-icons/fa';
+import RepoList from '../components/repos/RepoList';
 
 function User() {
   const [notFound, setNotFound] = useState(false);
-  const { user, loading, getUser } = useContext(GithubContext);
+  const { user, repos, loading, getUser, getRepos } = useContext(GithubContext);
   let { login } = useParams();
 
   useEffect(() => {
     if (login) {
-      getUser(login).catch((error) => {
-        console.log(error);
+      getUser(login).catch(async (error) => {
+        const errorData = await error.json();
+        console.error(errorData);
+        
+        setNotFound(true);
+      });
+
+      getRepos(login).catch(async (error) => {
+        const errorData = await error.json();
+        console.error(errorData);
+
         setNotFound(true);
       });
     }
@@ -152,6 +162,8 @@ function User() {
               </div>
             </div>
           </div>
+
+          <RepoList repos={repos} />
         </div>
       </>
     )
