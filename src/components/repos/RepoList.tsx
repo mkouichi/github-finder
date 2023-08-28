@@ -1,4 +1,7 @@
-function RepoList({ repos }: { repos: any[] }) {
+import Repo from '../../models/repo';
+import RepoItem from './RepoItem';
+
+function RepoList({ repos }: { repos: Partial<Repo>[] }): JSX.Element {
   return (
     <div className='rounded-lg shadow-lg card bg-base-100'>
       <div className='card-body'>
@@ -6,7 +9,7 @@ function RepoList({ repos }: { repos: any[] }) {
           Latest Respositories
         </h2>
         {repos.map((repo) => (
-          <p key={repo.id}>{repo.name}</p>
+          <RepoItem key={repo.id} repo={repo} />
         ))}
       </div>
     </div>
