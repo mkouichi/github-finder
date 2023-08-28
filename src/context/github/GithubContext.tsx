@@ -1,6 +1,7 @@
 import { createContext, useReducer } from 'react';
 
 import User from '../../models/user';
+import Repo from '../../models/repo';
 import {
   GithubContextType,
   GithubReducerType,
@@ -103,7 +104,7 @@ export const GithubProvider = ({ children }: { children: React.ReactNode }) => {
         }
       );
     } else {
-      const data = await response.json();
+      const data: Partial<Repo>[] = await response.json();
       dispatch({ type: 'GET_REPOS', payload: data });
     }
   }
