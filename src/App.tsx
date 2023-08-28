@@ -4,7 +4,6 @@ import { GithubProvider } from './context/github/GithubContext';
 import { AlertProvider } from './context/alert/AlertContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import Alert from './components/layout/Alert';
 
 function App(): JSX.Element {
   return (
@@ -13,7 +12,6 @@ function App(): JSX.Element {
         <div className='flex flex-col h-screen'>
           <Navbar />
           <main className='container mx-auto px-3 pb-12 flex-grow'>
-            <Alert />
             <Outlet />
           </main>
           <Footer />
