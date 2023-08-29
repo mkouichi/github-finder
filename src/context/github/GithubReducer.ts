@@ -9,18 +9,17 @@ const githubReducer = (state: GithubReducerType, action: ACTIONTYPE) => {
         users: action.payload,
         loading: false,
       };
-    case 'GET_USER':
-      return {
-        ...state,
-        user: action.payload,
-        loading: false,
-      };
-    case 'GET_REPOS':
-      return {
-        ...state,
-        repos: action.payload,
-        loading: false,
-      };
+    case 'GET_USER_AND_REPOS':
+      if (action.payload) {
+        return {
+          ...state,
+          user: action.payload.user,
+          repos: action.payload.repos,
+          loading: false,
+        };
+      } else {
+        return { ...state };
+      }
     case 'CLEAR_RESULTS':
       return {
         ...state,

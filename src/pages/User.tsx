@@ -3,9 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { FaUsers, FaUserFriends, FaCodepen, FaStore } from 'react-icons/fa';
 
 import GithubContext from '../context/github/GithubContext';
+import { getUserAndRepos } from '../context/github/GithubActions';
 import NotFound from './NotFound';
 import RepoList from '../components/repos/RepoList';
-import { getUser, getRepos } from '../context/github/GithubActions';
 
 function User() {
   const [notFound, setNotFound] = useState(false);
@@ -15,22 +15,18 @@ function User() {
   useEffect(() => {
     dispatch({ type: 'SET_LOADING', payload: true });
 
-    const getUserData = async () => {
-      const userData = await getUser(login!);
-      dispatch({ type: 'GET_USER', payload: userData });
+    const getUserData = async (): Promise<void> => {
+      const userData = await getUserAndRepos(login!)
+        // Handle 404 error
+        .catch((error) => {
+          console.error(error);
+          setNotFound(true);
+        });
 
-      const userRepoData = await getRepos(login!);
-      dispatch({ type: 'GET_REPOS', payload: userRepoData });
+      dispatch({ type: 'GET_USER_AND_REPOS', payload: userData });
     };
 
-    getUserData()
-      // Handle 404 error
-      .catch(async (error) => {
-        const errorData = await error.json();
-        console.error(errorData);
-
-        setNotFound(true);
-      });
+    getUserData();
   }, [login, dispatch]);
 
   return notFound ? (
